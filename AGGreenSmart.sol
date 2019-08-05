@@ -1,6 +1,8 @@
+// ******************** Draft *******************************
+
 pragma solidity ^0.4.21;
 
-import "./EIP20Interface.sol";
+//import "./EIP20Interface.sol";
 
 
 contract EIP20 is EIP20Interface {
@@ -30,12 +32,14 @@ contract EIP20 is EIP20Interface {
         decimals = _decimalUnits;                            // Amount of decimals for display purposes
         symbol = _tokenSymbol;                               // Set the symbol for display purposes
     }
+    
+    // change function transfer by Deposit
 
-    function transfer(address _to, uint256 _value) public returns (bool success) {
+   function deposit(bytes32 _id) public payable {
         require(balances[msg.sender] >= _value);
         balances[msg.sender] -= _value;
         balances[_to] += _value;
-        emit Transfer(msg.sender, _to, _value); //solhint-disable-line indent, no-unused-vars
+        emit Deposit(msg.sender, _to, msg.value); //Draft
         return true;
     }
 
@@ -47,7 +51,7 @@ contract EIP20 is EIP20Interface {
         if (allowance < MAX_UINT256) {
             allowed[_from][msg.sender] -= _value;
         }
-        emit Transfer(_from, _to, _value); //solhint-disable-line indent, no-unused-vars
+        emit Deposit(_from, _to, _value); //solhint-disable-line indent, no-unused-vars
         return true;
     }
 
